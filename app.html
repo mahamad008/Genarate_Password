@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .password-generator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+input[type="number"],
+input[type="checkbox"] {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+button {
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: #f00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  margin-top: 20px;
+}
+
+.password-display {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+input[type="text"] {
+  font-size: 20px;
+  padding: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  flex-grow: 1;
+}
+
+#copy-button {
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: #00f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+}
+</style>
+<body>
+    <div class="password-generator">
+        <h1>Password Generator</h1>
+        <div class="form-group">
+          <label for="password-length">Password Length:</label>
+          <input type="number" id="password-length" min="6" max="50" value="12">
+        </div>
+        <div class="form-group">
+          <label for="include-uppercase">Include Uppercase Letters:</label>
+          <input type="checkbox" id="include-uppercase" checked>
+        </div>
+        <div class="form-group">
+          <label for="include-numbers">Include Numbers:</label>
+          <input type="checkbox" id="include-numbers" checked>
+        </div>
+        <div class="form-group">
+          <label for="include-symbols">Include Symbols:</label>
+          <input type="checkbox" id="include-symbols" checked>
+        </div>
+        <button id="generate-button">Generate Password</button>
+        <div class="password-display">
+          <input type="text" id="password" readonly>
+          <button id="copy-button">Copy to Clipboard</button>
+        </div>
+      </div>
+      <script>
+        // Get elements
+const passwordLengthInput = document.querySelector('#password-length');
+const includeUppercaseInput = document.querySelector('#include-uppercase');
+const includeNumbersInput = document.querySelector('#include-numbers');
+const includeSymbolsInput = document.querySelector('#include-symbols');
+const generateButton = document.querySelector('#generate-button');
+const passwordInput = document.querySelector('#password');
+const copyButton = document.querySelector('#copy-button');
+
+// Add event listeners
+generateButton.addEventListener('click', generatePassword);
+copyButton.addEventListener('click', copyPassword);
+
+// Generate password
+function generatePassword() {
+  let length = Number(passwordLengthInput.value);
+  let includeUppercase = includeUppercaseInput.checked;
+  let includeNumbers = includeNumbersInput.checked;
+  let includeSymbols = includeSymbolsInput.checked;
+  let lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+  let uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let numberChars = '0123456789';
+  let symbolChars = '!@#$%^&*()_+-={}[]|\\:;"<>,.?/';
+  let chars = lowercaseChars;
+  if (includeUppercase) {
+    chars += uppercaseChars;
+  }
+  if (includeNumbers) {
+    chars += numberChars;
+  }
+  if (includeSymbols) {
+    chars += symbolChars;
+  }
+  let password = '';
+  for (let i = 0; i < length; i++) {
+    let index = Math.floor(Math.random() * chars.length);
+    password += chars[index];
+  }
+  passwordInput.value = password;
+}
+
+// Copy password to clipboard
+function copyPassword() {
+  passwordInput.select();
+  passwordInput.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  alert('Password copied to clipboard!');
+}
+      </script>
+</body>
+</html>
